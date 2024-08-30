@@ -1,0 +1,46 @@
+{% load wagtailcore_tags wagtailimages_tags  %}
+<div>
+
+
+    <div class="u-text-center">
+        <h2>{{ self.heading }}</h2>
+        {% if self.text %}
+            <p>{{self.text|richtext}}</p>
+        {% endif %}
+    </div>
+    <div class="divider"></div>
+
+    
+
+    <div class="grid-lg u-gap-2">
+        {% for post in self.posts %}
+
+        <div class="grid-c-4">
+            <a href="{% pageurl post %}">
+                <div class="card card--slide-up bg-gray-800 text-pink-400" >
+                    <div class="card__container">
+                        {% image post.specific.image fill-600x600 as thumbnail %}
+                        
+                        <div class="card__image" style="background-image: url('{{ post.specific.image.file.url }}');"></div>
+                    </div>
+                    <div class="card__mobile-title bg-gray-800">
+                        <div class="content">
+                            <div class="tile">
+                                <div class="tile__container">
+                                    <p class="tile__title" style="margin-left: 5%;">{{ post.title }}</p>
+                                    <p class="tile__subtitle" style="margin-left: 5%;">by {{post.specific.owner}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card__body content">
+                        <p style="margin-left: 5%;">{{ post.specific.intro }}</p>
+                    </div>
+                    <div class="card__footer content" style="margin-left: 5%;">Posted on {{ post.specific.date }}</div>
+                </div>
+            </a>
+        </div>  
+        {% endfor %}
+    </div>
+
+</div>

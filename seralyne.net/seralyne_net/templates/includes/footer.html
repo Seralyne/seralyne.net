@@ -1,0 +1,42 @@
+{% load navigation_tags %}
+
+
+
+
+<footer class="footer">
+    <h6 class="footer__title text-white uppercase">Seralyne</h6>
+    <div class="content">
+        <div class="divider"></div>
+
+        {% with youtube_url=settings.base.NavigationSettings.youtube_url twitch_url=settings.base.NavigationSettings.twitch_url twitter_url=settings.base.NavigationSettings.twitter_url github_url=settings.base.NavigationSettings.github_url mastodon_url=settings.base.NavigationSettings.mastodon_url %}
+        {% if twitter_url or github_url or mastodon_url or twitch_url or youtube_url %}
+            <p>
+                Follow me on the socials! <br>
+                {% if github_url %}
+                    <a href="{{ github_url }}" class="text-pink-400" style="font-size: 20pt;" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                {% endif %}
+                {% if twitter_url %}
+                    <a href="{{ twitter_url }}" class="text-pink-400" style="font-size: 20pt;" title="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                {% endif %}
+                {% if mastodon_url %}
+                    <a href="{{ mastodon_url }}" class="text-pink-400" style="font-size: 20pt;" title="Mastodon"><i class="fa-brands fa-mastodon"></i></a>
+                {% endif %}
+                {% if youtube_url %}
+                    <a href="{{ youtube_url }}" class="text-pink-400" style="font-size: 20pt;" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                {% endif %}
+                {% if twitch_url %}
+                    <a href="{{ twitch_url }}" class="text-pink-400" style="font-size: 20pt;" title="Twitch"><i class="fa-brands fa-twitch"></i></a>
+                {% endif %}
+            </p>
+        {% endif %}
+    {% endwith %}
+
+    {% get_footer_text %}
+    <p class="subtitle">© Seralyne 2024 - {% now "Y" %}.</p>
+</footer>
+
+
+<footer>
+
+
+</footer>

@@ -1,0 +1,15 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="u-text-center">
+    <h2>{{ self.heading }}</h2>
+    {% if self.text %}
+        <p>{{self.text|richtext}}</p>
+    {% endif %}
+</div>
+<div class="divider"></div>
+
+<div class="row bg-gray-900 text-pink-400">
+    <div class="col-4">{{ self.col_one}}</div>
+    <div class="col-4">{{ self.col_two}}</div>
+    <div class="col-4">{{ self.col_three}}</div>        
+</div>               

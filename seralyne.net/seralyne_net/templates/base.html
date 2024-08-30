@@ -1,0 +1,77 @@
+{% load static wagtailcore_tags wagtailuserbar %}
+
+<!DOCTYPE html>
+<html lang="en" id="page">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+            {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+            {% wagtail_site as current_site %}
+            {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
+            {% endblock %}
+
+        </title>
+        {% if page.search_description %}
+        <meta name="description" content="{{ page.search_description }}" />
+        <meta property="og:description" content="{{ page.search_description }}" />
+        {% endif %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge;"/>
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% wagtail_site as current_site %}{% if current_site and current_site.site_name %} - {{ current_site.site_name }}{% endif %}" />
+        
+        <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+        {% if page.image or page.thumbnail %}
+            <meta name="description" content="{{ page.image.file.url  }}" />
+        {% endif %}
+
+        {# Force all links in the live preview panel to be opened in a new tab #}
+        {% if request.in_preview_panel %}
+        <base target="_blank">
+        {% endif %}
+
+        {# Add supported color schemes:  #}
+        {# <meta name="color-scheme" content="light dark"> #}
+
+        {# Add a favicon with inline SVG: #}
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍩</text></svg>"/>
+
+        {# Global stylesheets #}
+        
+        <link href="https://raw.githubusercontent.com/Spiderpig86/Cirrus/master/dist/cirrus.min.css" type="text/css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous"/>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous" ></script> 
+        <script src="https://kit.fontawesome.com/8b63d0cf1c.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/cirrus.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/seralyne_net.css' %}">
+        
+        {% block extra_css %}
+        {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %} bg-gray-900 text-pink-400">
+        {#% wagtailuserbar %#}
+
+        {% include 'includes/header.html'%}
+
+        <main id="main">{% block content %}{% endblock %}</main>
+
+
+        {% include 'includes/footer.html'%}
+
+        {# Global javascript #}
+
+        <script type="text/javascript" src="{% static 'js/seralyne_net.js' %}"></script>
+
+        {% block extra_js %}
+        {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
+</html>

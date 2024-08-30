@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found{% endblock %}
+
+{% block body_class %}template-404{% endblock %}
+
+{% block content %}
+
+
+<div>
+    <section class="section">
+        <div class="hero fullscreen">
+            <div class="hero-body">
+                <div class="content">
+                    <div class="text-center">
+                        <div class="tile m-0 level">
+                            <div class="tile__icon">
+                            </div>
+                            <div class="space"></div>
+                            <div class="tile__container">
+                                <h1 class="tile__title m-0">404 - Page Not Found</h1>
+                                <h6 class="tile__subtitle m-0 font-alt font-light">Unfortunately, the link you arrived on is dead. :/</h6>
+                            </div>
+                        </div>
+                        {% if page.hero_cta_link %}
+                        <a href="{% pageurl page.hero_cta_link %}">
+                            {% firstof page.hero_cta page.hero_cta_link.title %}
+                        </a>
+                        {% endif %}
+            
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
+<h1>Page not found</h1>
+
+<h2>Sorry, this page could not be found.</h2>
+{% endblock %}

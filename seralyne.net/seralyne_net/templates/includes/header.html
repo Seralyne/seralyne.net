@@ -1,0 +1,51 @@
+{% load wagtailcore_tags navigation_tags wagtailuserbar %}
+
+<header>
+
+    <a href="#main" class="skip-link">Skip to content</a>
+    
+    {% get_site_root as site_root %}
+    <nav>
+        
+        <div class="header header-fixed unselectable header-animated" style="background-color: rgba(0, 0, 0, 0.67);" id="header">
+            <div class="header-brand">
+                <div class="nav-item no-hover">
+                    <h6 class="title">Seralyne</h6>
+                </div>
+                <div class="nav-item nav-btn" id="header-btn"><span></span><span></span><span></span></div>
+            </div>    
+            <div class="header-nav" id="header-menu" role="button">
+                <div class="nav-left">
+                    <div class="nav-item text-center"><a href="{% pageurl site_root %}">Home</a></div><div class="nav-item text-center no-hover no-mobile-display">|</div> 
+                    {% for menuitem in site_root.get_children.live.in_menu %}
+                        <div class="nav-item text-center"><a href="{% pageurl menuitem %}">{{ menuitem.title }}</a></div> {% if not forloop.last %} <div class="nav-item text-center no-hover no-mobile-display">|</div>  {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="nav-right">
+                    <div class="nav-item has-sub toggle-hover" id="dropdown">
+                        <a href="/search/" class="nav-item text-center">Search</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+    {% wagtailuserbar "top-right" %}
+</header>
+
+<script>
+    // Show dropdown when clicked
+    $('#header-btn').on('click', function(e) {
+        $('#header-menu').toggleClass('active');
+        $('.nav-btn').toggleClass('active');
+        $('.no-mobile-display').hide();
+    });
+
+    // Hide menu after clicking menu item
+    $('.dropdown-menu li').on('click', function(e) {
+        $('#header-menu').removeClass('active');
+        $('.nav-btn').removeClass('active');
+        $('.no-mobile-display').show();
+    });
+</script>

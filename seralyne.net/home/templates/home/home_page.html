@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    <div>
+        <section class="section">
+            <div class="hero fullscreen">
+                <div class="hero-body">
+                    <div class="content">
+                        <div class="text-center">
+                            <div class="tile m-0 level">
+                                <div class="tile__icon">
+                                    <figure class="avatar avatar--xl" style="min-width: 300px; min-height:300px;">{% image page.image fill-600x600 %}</div>
+                                </div>
+                                <div class="space"></div>
+                                <div class="tile__container">
+                                    <h1 class="tile__title m-0">{{ page.hero_text }}</h1>
+                                    <h6 class="tile__subtitle m-0 font-alt font-light">{{ page.hero_subtext }} </h6>
+                                </div>
+                            </div>
+                            {% if page.hero_cta_link %}
+                            <a href="{% pageurl page.hero_cta_link %}">
+                                {% firstof page.hero_cta page.hero_cta_link.title %}
+                            </a>
+                            {% endif %}
+                
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="grid u-gap-2">
+            <div class="grid-c-1"></div>
+    
+            <div class="grid-c-10">
+                {{ page.body }}
+            </div>            
+        </div>
+    </div>
+
+
+        
+        
+
+{% endblock content %}
