@@ -1,44 +1,80 @@
 {% extends "base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-searchresults{% endblock %}
 
 {% block title %}Search{% endblock %}
 
 {% block content %}
-<h1>Search</h1>
 
-<form action="{% url 'search' %}" method="get">
-    <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-    <input type="submit" value="Search" class="button">
-</form>
+<br><br>
 
-{% if search_results %}
-<p>You searched{% if search_query %} for “{{ search_query }}”{% endif %}, {{ search_results.paginator.count }} result{{ search_results.paginator.count|pluralize }} found.</p>
-<ol>
-    {% for result in search_results %}
-    <li>
-        <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
-        {% if result.search_description %}
-        {{ result.search_description }}
+<div class="grid u-gap-2">
+    <div class="grid-c-1"></div>
+    <div class="grid-c-10">
+        <h1>Search</h1>
+
+        <form action="{% url 'search' %}" method="get" class="form-group">
+            <input type="search" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
+            <input type="submit" value="Search" class="form-group-btn">
+        </form>
+
+
+
+        {% if search_results %}
+        <p>You searched{% if search_query %} for “{{ search_query }}”{% endif %}, {{ search_results.paginator.count }} result{{ search_results.paginator.count|pluralize }} found.</p>
+
+        <div class="divider"></div>
+
+
+
+        <div class="grid-lg u-gap-2">
+            {% for result in search_results %}
+
+            <div class="grid-c-4">
+                <a href="{% pageurl result %}">
+                    <div class="card card--slide-up bg-gray-800 text-pink-400" >
+                        <div class="card__container">
+                            {% image result.specific.image fill-600x600 as thumbnail %}
+                            
+                            <div class="card__image" style="background-image: url('{{ result.specific.image.file.url }}');"></div>
+                        </div>
+                        <div class="card__mobile-title bg-gray-800">
+                            <div class="content">
+                                <div class="tile">
+                                    <div class="tile__container">
+                                        <p class="tile__title" style="margin-left: 5%;">{{ result.title }}</p>
+                                        <p class="tile__subtitle" style="margin-left: 5%;">by {{result.specific.owner}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card__body content">
+                            <p style="margin-left: 5%;">{{ result.specific.intro }}</p>
+                        </div>
+                        <div class="card__footer content" style="margin-left: 5%;">Posted on {{ result.specific.date }}</div>
+                    </div>
+                </a>
+            </div>  
+            {% endfor %}
+        </div>
+
+
+        {% if search_results.paginator.num_pages > 1 %}
+            <p> Page {{ search_results.number }} of {{ search_results.paginator.num_pages }}, showing {{ search_results|length }}
         {% endif %}
-    </li>
-    {% endfor %}
-</ol>
-
-{% if search_results.paginator.num_pages > 1 %}
-    <p> Page {{ search_results.number }} of {{ search_results.paginator.num_pages }}, showing {{ search_results|length }}
-{% endif %}
 
 
-{% if search_results.has_previous %}
-<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
-{% endif %}
+        {% if search_results.has_previous %}
+        <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
+        {% endif %}
 
-{% if search_results.has_next %}
-<a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
-{% endif %}
-{% elif search_query %}
-No results found
-{% endif %}
+        {% if search_results.has_next %}
+        <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
+        {% endif %}
+        {% elif search_query %}
+        No results found
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags  %}
 
 {% block body_class %}template-blogpage{% endblock %}
 
@@ -20,14 +20,29 @@
                 {#<div align="center">{% image page.image fill-1500x500 %} </div>#}
                 <h1>{{ page.title }}</h1>
                 <div class="intro">{{ page.intro|richtext }}</div>
-                <p class="meta">Posted on {{ page.date }} by {{page.owner}}</p>
+                {% with categories=page.categories.all %}
+                    {% if categories %}
+                    <p class="meta" style="display: inline;">Posted on {{ page.date }} by {{page.owner}} in:
+                        {% for category in categories %}    
+                            <a href="{{ page.get_parent.url}}category/{{category.slug}}">{{category.name}}</a>{% if not forloop.last %}, {%endif%} </p>
+                        {% endfor %}
+                    {% else %}
+                        <p class="meta">Posted on {{ page.date }} by {{page.owner}}</p>
+                    {% endif %}
+                {% endwith %}
+
+                    
+                
+                {% for tag in page.tags.all %}
+                    <div class="tag tag--dark bg-pink-400"><a href="/blog/tag/{{tag.slug}}" class="text-black">{{ tag }}</a></div>
+                {% endfor %}
                 <div class="divider"></div>
 
 
                 {{ page.body }}
 
 
-
+                
                 <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
 
             

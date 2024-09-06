@@ -15,16 +15,32 @@
         <div class="grid-c-10">
             
 
-                <h1>{{ page.title }}</h1>
-                <div class="intro">{{ page.intro|richtext }}</div>
+
+                
+                {% if tag %}
+                    <h1>Showing Posts Tagged: {{ tag }}</h1>
+                    <p><a href="{{ page.url }}">Return to blog</a></p>
+
+                {% elif category %}
+                <h1>Category: {{ category.name }}</h1>
+                <p>{{category.description}}</p>
+                <p><a href="{{ page.url }}">Return to blog</a></p>
+
+                {% else %}
+                    <h1>{{ page.title }}</h1>
+                    <div class="intro">{{ page.intro|richtext }}</div>
+                    {% if categories %}
+                            <p style="display: inline;">Categories: 
+                            {% for category in categories %}
+                                <a href="{{ page.url}}category/{{category.slug}}">{{category.name}}</a>{% if not forloop.last %}, {%endif%} </p>
+                            {% endfor %}
+                    {% endif %}
+                    
+                {% endif %}
                 <div class="divider"></div>
 
-
-
-
-
                 <div class="grid-lg u-gap-2">
-                    {% for post in page.get_children %}
+                    {% for post in posts %}
 
                     <div class="grid-c-4">
                         <a href="{% pageurl post %}">
